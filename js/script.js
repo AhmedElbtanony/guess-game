@@ -3,69 +3,100 @@ document.title = gameName;
 document.querySelector("h1").innerHTML = gameName;
 document.querySelector("footer").innerHTML = `${gameName} game created by me`;
 let numberOfTries = 6;
-let numberOfLetters = 6;
+let numberOfLetters = 4;
 let currentTry = 1;
 const words = [
-  "anchor",
-  "animal",
-  "banana",
-  "basket",
-  "bishop",
-  "bottle",
-  "button",
-  "camera",
-  "candle",
-  "castle",
-  "cheese",
-  "circle",
-  "coffee",
-  "cookie",
-  "cotton",
-  "danger",
-  "desert",
-  "doctor",
-  "donkey",
-  "dragon",
-  "engine",
-  "family",
-  "farmer",
-  "forest",
-  "friend",
-  "garden",
-  "gloves",
-  "hammer",
-  "island",
-  "jacket",
-  "jungle",
-  "little",
-  "market",
-  "monkey",
-  "mother",
-  "nature",
-  "needle",
-  "office",
-  "orange",
-  "oxygen",
-  "pepper",
-  "qwerty",
-  "rabbit",
-  "rocket",
-  "school",
-  "silver",
-  "simple",
-  "sister",
-  "smooth",
-  "soccer",
-  "spider",
-  "speech",
-  "spring",
-  "stable",
-  "summer",
-  "triple",
-  "turtle",
-  "wallet",
-  "window",
-  "yellow",
+  "acid",
+  "arch",
+  "bake",
+  "bark",
+  "beam",
+  "bird",
+  "blue",
+  "bush",
+  "cake",
+  "calm",
+  "card",
+  "cave",
+  "clay",
+  "coat",
+  "cold",
+  "dark",
+  "dear",
+  "desk",
+  "dive",
+  "earn",
+  "edge",
+  "fade",
+  "farm",
+  "fast",
+  "fire",
+  "fish",
+  "flag",
+  "flaw",
+  "gift",
+  "glow",
+  "goat",
+  "gold",
+  "golf",
+  "hair",
+  "hand",
+  "hike",
+  "hope",
+  "idea",
+  "iron",
+  "item",
+  "join",
+  "joke",
+  "jump",
+  "king",
+  "kite",
+  "lake",
+  "lamp",
+  "leaf",
+  "lion",
+  "list",
+  "love",
+  "mask",
+  "meat",
+  "milk",
+  "mint",
+  "navy",
+  "neck",
+  "nest",
+  "nose",
+  "open",
+  "oven",
+  "palm",
+  "pink",
+  "play",
+  "quit",
+  "quiz",
+  "rain",
+  "ride",
+  "ring",
+  "risk",
+  "road",
+  "rock",
+  "salt",
+  "sand",
+  "seed",
+  "ship",
+  "snow",
+  "soup",
+  "star",
+  "time",
+  "trap",
+  "tree",
+  "ugly",
+  "unit",
+  "wave",
+  "wind",
+  "wolf",
+  "wool",
+  "zero",
+  "zone",
+  "zoom",
 ];
 let wordToGuess = words[Math.floor(Math.random() * words.length)].toUpperCase();
 console.log(wordToGuess);
@@ -112,11 +143,13 @@ function geneateinput() {
       } else if (event.key === "Backspace") {
         const previnput = currentIndex - 1;
         if (previnput >= 0) {
-          if (currentIndex === 5 && inputs[currentIndex].value !== "") {
+          if (currentIndex === numberOfTries-1 && inputs[currentIndex].value !== "") {
             inputs[currentIndex].value = "";
           } else if (inputs[currentIndex].value === "") {
-            inputs[previnput].focus();
-            inputs[previnput].value = "";
+            if (!inputs[previnput].disabled) {
+              inputs[previnput].focus();
+              inputs[previnput].value = "";
+            }
           } else {
             inputs[currentIndex].value = "";
           }
@@ -165,20 +198,37 @@ function handleGuesses() {
       tryDiv.classList.add("disabled-inputs");
     });
   } else {
-    document.querySelector(`.try-${currentTry}`).classList.add("disabled-inputs");
-    const currentTryInputs = document.querySelectorAll(`.try-${currentTry} input`);
+    document
+      .querySelector(`.try-${currentTry}`)
+      .classList.add("disabled-inputs");
+    const currentTryInputs = document.querySelectorAll(
+      `.try-${currentTry} input`
+    );
     currentTryInputs.forEach((input) => (input.disabled = true));
     currentTry++;
-
-    
+    if (currentTry > numberOfTries) {
+      messageArea.innerHTML = `Game Over! The word was <span class="error">${wordToGuess}</span>.`;
+      messageArea.classList.remove("d-none");
+      let allTries = document.querySelectorAll(".inputs > div");
+      allTries.forEach((tryDiv) => {
+        tryDiv.classList.add("disabled-inputs");
+      });
+      let controlsButtons = document.querySelectorAll(".control > button");
+      controlsButtons.forEach((tryDiv) => {
+        tryDiv.classList.add("disabled-inputs");
+      });
+      return;
+    }else{
     const nextTryInput = document.querySelectorAll(`.try-${currentTry} input`);
     nextTryInput.forEach((input) => (input.disabled = false));
 
     let el = document.querySelector(`.try-${currentTry}`);
     if (el) {
-      document.querySelector(`.try-${currentTry}`).classList.remove("disabled-inputs");
+      document
+        .querySelector(`.try-${currentTry}`)
+        .classList.remove("disabled-inputs");
       el.children[1].focus();
-    }
+    }}
   }
   const inputsInDisabledDiv = document.querySelectorAll(".disabled-inputs");
   inputsInDisabledDiv.forEach((input) => (input.disabled = true));
