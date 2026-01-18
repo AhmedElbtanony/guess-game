@@ -233,11 +233,11 @@ function handleGuesses() {
   inputsInDisabledDiv.forEach((input) => (input.disabled = true));
 }
 
-const hintButton = document.querySelector(".hint");
-hintButton.addEventListener("click", hint);
-function hint(params) {
+// const hintButton = document.querySelector(".hint");
+// hintButton.addEventListener("click", hint);
+// function hint(params) {
   
-}
+// }
 
 
 window.onload = function () {
